@@ -1,4 +1,5 @@
-﻿using Embrace.API.Infrastructure.Persistence;
+﻿using Embrace.API.Infrastructure.Mappings;
+using Embrace.API.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace Embrace.API.Infrastructure.Contexts
@@ -16,8 +17,12 @@ namespace Embrace.API.Infrastructure.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<VoluntarioAcao>()
-                .HasKey(va => new { va.VoluntarioId, va.AcaoSolidariaId });
+            modelBuilder.ApplyConfiguration(new OngMapping());
+            modelBuilder.ApplyConfiguration(new AcaoSolidariaMapping());
+            modelBuilder.ApplyConfiguration(new DoacaoMapping());
+            modelBuilder.ApplyConfiguration(new VoluntarioMapping());
+            modelBuilder.ApplyConfiguration(new VoluntarioAcaoMapping());
+            modelBuilder.ApplyConfiguration(new PontoDeAlimentoMapping());
         }
     }
 }
