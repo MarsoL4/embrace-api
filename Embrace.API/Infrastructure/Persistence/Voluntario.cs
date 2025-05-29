@@ -1,13 +1,12 @@
 ﻿namespace Embrace.API.Infrastructure.Persistence
 {
-    public class Ong
+    public class Voluntario
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public string Cnpj { get; set; }
-        public string Email { get; set; }
         public string Telefone { get; set; }
+        public string Cidade { get; set; }
 
-        public ICollection<AcaoSolidaria> AcoesSolidarias { get; set; }
+        public ICollection<VoluntarioAcao> Acoes { get; set; }
     }
 }

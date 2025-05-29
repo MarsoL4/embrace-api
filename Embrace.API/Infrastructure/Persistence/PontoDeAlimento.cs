@@ -1,0 +1,12 @@
+﻿namespace Embrace.API.Infrastructure.Persistence
+{
+    public class PontoDeAlimento
+    {
+        public int Id { get; set; }
+        public string NomeLocal { get; set; }
+        public string Endereco { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public int Capacidade { get; set; } // quantos kits por exemplo
+    }
+}
