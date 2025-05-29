@@ -2,7 +2,7 @@
 {
     public class PontoDeAlimento
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string NomeLocal { get; set; }
         public string Endereco { get; set; }
         public double Latitude { get; set; }
