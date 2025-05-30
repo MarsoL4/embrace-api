@@ -3,6 +3,7 @@ using Embrace.API.AutoMapper;
 using Embrace.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Embrace.API.Infrastructure.Repositories;
+using Embrace.API.Infrastructure.Repositories.Interfaces;
 
 namespace Embrace.API
 {

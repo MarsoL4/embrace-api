@@ -1,6 +1,6 @@
 ﻿using Embrace.API.Infrastructure.Persistence;
 
-namespace Embrace.API.Infrastructure.Repositories
+namespace Embrace.API.Infrastructure.Repositories.Interfaces
 {
     public interface IOngRepository
     {

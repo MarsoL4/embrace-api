@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Embrace.API.DTOs;
 using Embrace.API.Infrastructure.Persistence;
-using Embrace.API.Infrastructure.Repositories;
+using Embrace.API.Infrastructure.Repositories.Interfaces;
 
 namespace Embrace.API.Services
 {

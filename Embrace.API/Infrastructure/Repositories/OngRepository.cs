@@ -1,5 +1,6 @@
 ﻿using Embrace.API.Infrastructure.Contexts;
 using Embrace.API.Infrastructure.Persistence;
+using Embrace.API.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Embrace.API.Infrastructure.Repositories
