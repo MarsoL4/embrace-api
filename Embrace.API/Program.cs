@@ -4,6 +4,8 @@ using Embrace.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Embrace.API.Infrastructure.Repositories;
 using Embrace.API.Infrastructure.Repositories.Interfaces;
+using Embrace.API.Repositories.Interfaces;
+using Embrace.API.Repositories;
 
 namespace Embrace.API
 {
@@ -32,9 +34,19 @@ namespace Embrace.API
             // Registro do AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            // Registro do Repository e Service (exemplo: Ong)
+            // Registro dos Repositories e Services
             builder.Services.AddScoped<IOngRepository, OngRepository>();
             builder.Services.AddScoped<OngService>();
+
+            builder.Services.AddScoped<IVoluntarioRepository, VoluntarioRepository>();
+            builder.Services.AddScoped<VoluntarioService>();
+
+            builder.Services.AddScoped<IAcaoSolidariaRepository, AcaoSolidariaRepository>();
+            builder.Services.AddScoped<AcaoSolidariaService>();
+
+            builder.Services.AddScoped<IDoacaoRepository, DoacaoRepository>();
+            builder.Services.AddScoped<DoacaoService>();
+
 
             var app = builder.Build();
 
