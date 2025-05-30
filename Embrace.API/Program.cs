@@ -47,6 +47,9 @@ namespace Embrace.API
             builder.Services.AddScoped<IDoacaoRepository, DoacaoRepository>();
             builder.Services.AddScoped<DoacaoService>();
 
+            builder.Services.AddScoped<IPontoDeAlimentoRepository, PontoDeAlimentoRepository>();
+            builder.Services.AddScoped<PontoDeAlimentoService>();
+
 
             var app = builder.Build();
 
