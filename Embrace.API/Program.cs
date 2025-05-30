@@ -1,5 +1,8 @@
 using Embrace.API.Infrastructure.Contexts;
+using Embrace.API.AutoMapper;
+using Embrace.API.Services;
 using Microsoft.EntityFrameworkCore;
+using Embrace.API.Infrastructure.Repositories;
 
 namespace Embrace.API
 {
@@ -24,6 +27,13 @@ namespace Embrace.API
 
             builder.Services.AddDbContext<EmbraceDbContext>(options =>
                 options.UseOracle(connectionString));
+
+            // Registro do AutoMapper
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+            // Registro do Repository e Service (exemplo: Ong)
+            builder.Services.AddScoped<IOngRepository, OngRepository>();
+            builder.Services.AddScoped<OngService>();
 
             var app = builder.Build();
 
