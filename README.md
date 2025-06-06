@@ -10,16 +10,9 @@ O **Embrace.API** é uma API REST desenvolvida em .NET 8 que visa auxiliar comun
 - Visualização de pontos de coleta de alimentos;
 - Integração com mapa e sistemas externos para gestão comunitária.
 
-<!--
----
-
 ## 🧱 Arquitetura do Projeto
+📄 [Clique aqui para visualizar o Diagrama de Arquitetura (PDF)](docs/ArquiteturaEmbrace.pdf)
 
-DIAGRAMA DA ARQUITETURA AQUI
-[INSERIR DIAGRAMA DE CAMADAS AQUI]
-
----
--->
 
 ## 📂 Estrutura de Pastas
 
