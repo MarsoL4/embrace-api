@@ -24,7 +24,8 @@ services:
     depends_on:
       - db
     environment:
-      - ConnectionStrings__Default=Host=db;Port=5432;Database=embrace_db;Username=embrace_user;Password=embrace_pass
+      - USE_POSTGRES=true
+      - ConnectionStrings__Postgres=Host=db;Port=5432;Database=embrace_db;Username=embrace_user;Password=embrace_pass
     networks:
       - embrace_network
 

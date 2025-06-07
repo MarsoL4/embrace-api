@@ -15,7 +15,7 @@ namespace Embrace.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configurações de serviços
+            // ConfiguraÃ§Ã£o de serviÃ§os
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -26,15 +26,28 @@ namespace Embrace.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var connectionString = builder.Configuration.GetConnectionString("Oracle");
+            // Escolher banco dinamicamente
+            var usePostgres = builder.Configuration["USE_POSTGRES"]?.ToLower() == "true";
 
-            builder.Services.AddDbContext<EmbraceDbContext>(options =>
-                options.UseOracle(connectionString));
+            var connectionString = builder.Configuration.GetConnectionString(
+                usePostgres ? "Postgres" : "Oracle"
+            );
 
-            // Registro do AutoMapper
+            if (usePostgres)
+            {
+                builder.Services.AddDbContext<EmbraceDbContext>(options =>
+                    options.UseNpgsql(connectionString));
+            }
+            else
+            {
+                builder.Services.AddDbContext<EmbraceDbContext>(options =>
+                    options.UseOracle(connectionString));
+            }
+
+            // AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            // Registro dos Repositories e Services
+            // Repositories e Services
             builder.Services.AddScoped<IOngRepository, OngRepository>();
             builder.Services.AddScoped<OngService>();
 
@@ -49,7 +62,6 @@ namespace Embrace.API
 
             builder.Services.AddScoped<IPontoDeAlimentoRepository, PontoDeAlimentoRepository>();
             builder.Services.AddScoped<PontoDeAlimentoService>();
-
 
             var app = builder.Build();
 
