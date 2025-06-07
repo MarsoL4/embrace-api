@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  db:
+    build:
+      context: ./docker/db
+    container_name: embrace_db
+    environment:
+      - POSTGRES_USER=embrace_user
+      - POSTGRES_PASSWORD=embrace_pass
+      - POSTGRES_DB=embrace_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - embrace_network
+
+  app:
+    build: .
+    container_name: embrace_api
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__Default=Host=db;Port=5432;Database=embrace_db;Username=embrace_user;Password=embrace_pass
+    networks:
+      - embrace_network
+
+volumes:
+  postgres_data:
+
+networks:
+  embrace_network:
