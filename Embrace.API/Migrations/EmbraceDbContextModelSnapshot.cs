@@ -4,7 +4,7 @@ using Embrace.API.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Oracle.EntityFrameworkCore.Metadata;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -18,55 +18,55 @@ namespace Embrace.API.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.13")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Embrace.API.Infrastructure.Persistence.AcaoSolidaria", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ID");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Cidade")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("CIDADE");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("NVARCHAR2(300)")
+                        .HasColumnType("character varying(300)")
                         .HasColumnName("DESCRICAO");
 
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("ESTADO");
 
                     b.Property<int>("MetaItens")
-                        .HasColumnType("NUMBER(10)")
+                        .HasColumnType("integer")
                         .HasColumnName("META_ITENS");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("NOME");
 
                     b.Property<long>("OngId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ONG_ID");
 
                     b.Property<string>("TipoEvento")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("TIPO_EVENTO");
 
                     b.HasKey("Id");
@@ -80,13 +80,13 @@ namespace Embrace.API.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ID");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<long>("AcaoSolidariaId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ACAO_SOLIDARIA_ID");
 
                     b.Property<DateTime>("DataRecebida")
@@ -94,13 +94,13 @@ namespace Embrace.API.Migrations
                         .HasColumnName("DATA_RECEBIDA");
 
                     b.Property<int>("Quantidade")
-                        .HasColumnType("NUMBER(10)")
+                        .HasColumnType("integer")
                         .HasColumnName("QUANTIDADE");
 
                     b.Property<string>("Tipo")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("TIPO");
 
                     b.HasKey("Id");
@@ -114,33 +114,33 @@ namespace Embrace.API.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ID");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Cnpj")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("CNPJ");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("NVARCHAR2(150)")
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("EMAIL");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("NOME");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("TELEFONE");
 
                     b.HasKey("Id");
@@ -152,25 +152,25 @@ namespace Embrace.API.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ID");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<int>("Capacidade")
-                        .HasColumnType("NUMBER(10)")
+                        .HasColumnType("integer")
                         .HasColumnName("CAPACIDADE");
 
                     b.Property<string>("Endereco")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("NVARCHAR2(200)")
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("ENDERECO");
 
                     b.Property<string>("NomeLocal")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("NOME_LOCAL");
 
                     b.HasKey("Id");
@@ -182,27 +182,27 @@ namespace Embrace.API.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ID");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Cidade")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("CIDADE");
 
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR2(100)")
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("NOME");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("NVARCHAR2(20)")
+                        .HasColumnType("character varying(20)")
                         .HasColumnName("TELEFONE");
 
                     b.HasKey("Id");
@@ -213,11 +213,11 @@ namespace Embrace.API.Migrations
             modelBuilder.Entity("Embrace.API.Infrastructure.Persistence.VoluntarioAcao", b =>
                 {
                     b.Property<long>("VoluntarioId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("VOLUNTARIO_ID");
 
                     b.Property<long>("AcaoSolidariaId")
-                        .HasColumnType("NUMBER(19)")
+                        .HasColumnType("bigint")
                         .HasColumnName("ACAO_SOLIDARIA_ID");
 
                     b.HasKey("VoluntarioId", "AcaoSolidariaId");

@@ -14,7 +14,6 @@ namespace Embrace.API.Infrastructure.Mappings
 
             builder.Property(v => v.Id)
                 .HasColumnName("ID")
-                .HasColumnType("NUMBER(19)")
                 .ValueGeneratedOnAdd();
 
             builder.Property(v => v.Nome)

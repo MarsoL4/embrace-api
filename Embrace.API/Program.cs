@@ -26,23 +26,10 @@ namespace Embrace.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Escolher banco dinamicamente
-            var usePostgres = builder.Configuration["USE_POSTGRES"]?.ToLower() == "true";
+            var connectionString = builder.Configuration.GetConnectionString("Postgres");
 
-            var connectionString = builder.Configuration.GetConnectionString(
-                usePostgres ? "Postgres" : "Oracle"
-            );
-
-            if (usePostgres)
-            {
-                builder.Services.AddDbContext<EmbraceDbContext>(options =>
-                    options.UseNpgsql(connectionString));
-            }
-            else
-            {
-                builder.Services.AddDbContext<EmbraceDbContext>(options =>
-                    options.UseOracle(connectionString));
-            }
+            builder.Services.AddDbContext<EmbraceDbContext>(options =>
+                options.UseNpgsql(connectionString));
 
             // AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));

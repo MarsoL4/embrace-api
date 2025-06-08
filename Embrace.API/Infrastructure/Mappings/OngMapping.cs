@@ -14,7 +14,6 @@
 
             builder.Property(o => o.Id)
                 .HasColumnName("ID")
-                .HasColumnType("NUMBER(19)")
                 .ValueGeneratedOnAdd();
 
             builder.Property(o => o.Nome)

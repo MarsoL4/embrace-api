@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Embrace.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class PostgreInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,12 +16,12 @@ namespace Embrace.API.Migrations
                 name: "ONGS",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    NOME = table.Column<string>(type: "NVARCHAR2(100)", maxLength: 100, nullable: false),
-                    CNPJ = table.Column<string>(type: "NVARCHAR2(20)", maxLength: 20, nullable: false),
-                    EMAIL = table.Column<string>(type: "NVARCHAR2(150)", maxLength: 150, nullable: false),
-                    TELEFONE = table.Column<string>(type: "NVARCHAR2(20)", maxLength: 20, nullable: true)
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NOME = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    CNPJ = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    EMAIL = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    TELEFONE = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,11 +32,11 @@ namespace Embrace.API.Migrations
                 name: "PONTOS_DE_ALIMENTO",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    NOME_LOCAL = table.Column<string>(type: "NVARCHAR2(100)", maxLength: 100, nullable: false),
-                    ENDERECO = table.Column<string>(type: "NVARCHAR2(200)", maxLength: 200, nullable: false),
-                    CAPACIDADE = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NOME_LOCAL = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    ENDERECO = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    CAPACIDADE = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,11 +47,11 @@ namespace Embrace.API.Migrations
                 name: "VOLUNTARIOS",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    NOME = table.Column<string>(type: "NVARCHAR2(100)", maxLength: 100, nullable: false),
-                    TELEFONE = table.Column<string>(type: "NVARCHAR2(20)", maxLength: 20, nullable: false),
-                    CIDADE = table.Column<string>(type: "NVARCHAR2(100)", maxLength: 100, nullable: false)
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NOME = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    TELEFONE = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    CIDADE = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,15 +62,15 @@ namespace Embrace.API.Migrations
                 name: "ACOES_SOLIDARIAS",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    NOME = table.Column<string>(type: "NVARCHAR2(100)", maxLength: 100, nullable: false),
-                    TIPO_EVENTO = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
-                    CIDADE = table.Column<string>(type: "NVARCHAR2(100)", maxLength: 100, nullable: false),
-                    ESTADO = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
-                    DESCRICAO = table.Column<string>(type: "NVARCHAR2(300)", maxLength: 300, nullable: false),
-                    META_ITENS = table.Column<int>(type: "NUMBER(10)", nullable: false),
-                    ONG_ID = table.Column<long>(type: "NUMBER(19)", nullable: false)
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NOME = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    TIPO_EVENTO = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    CIDADE = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    ESTADO = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    DESCRICAO = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    META_ITENS = table.Column<int>(type: "integer", nullable: false),
+                    ONG_ID = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,12 +87,12 @@ namespace Embrace.API.Migrations
                 name: "DOACOES",
                 columns: table => new
                 {
-                    ID = table.Column<long>(type: "NUMBER(19)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    TIPO = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
-                    QUANTIDADE = table.Column<int>(type: "NUMBER(10)", nullable: false),
+                    ID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TIPO = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    QUANTIDADE = table.Column<int>(type: "integer", nullable: false),
                     DATA_RECEBIDA = table.Column<DateTime>(type: "DATE", nullable: false),
-                    ACAO_SOLIDARIA_ID = table.Column<long>(type: "NUMBER(19)", nullable: true)
+                    ACAO_SOLIDARIA_ID = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,8 +109,8 @@ namespace Embrace.API.Migrations
                 name: "VOLUNTARIO_ACAO",
                 columns: table => new
                 {
-                    VOLUNTARIO_ID = table.Column<long>(type: "NUMBER(19)", nullable: false),
-                    ACAO_SOLIDARIA_ID = table.Column<long>(type: "NUMBER(19)", nullable: false)
+                    VOLUNTARIO_ID = table.Column<long>(type: "bigint", nullable: false),
+                    ACAO_SOLIDARIA_ID = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {

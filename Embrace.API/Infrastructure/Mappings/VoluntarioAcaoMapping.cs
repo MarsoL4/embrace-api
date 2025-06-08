@@ -13,12 +13,10 @@ namespace Embrace.API.Infrastructure.Mappings
             builder.HasKey(va => new { va.VoluntarioId, va.AcaoSolidariaId });
 
             builder.Property(va => va.VoluntarioId)
-                .HasColumnName("VOLUNTARIO_ID")
-                .HasColumnType("NUMBER(19)");
+                .HasColumnName("VOLUNTARIO_ID");
 
             builder.Property(va => va.AcaoSolidariaId)
-                .HasColumnName("ACAO_SOLIDARIA_ID")
-                .HasColumnType("NUMBER(19)");
+                .HasColumnName("ACAO_SOLIDARIA_ID");
 
             builder.HasOne(va => va.Voluntario)
                 .WithMany(v => v.Acoes)
