@@ -2,12 +2,18 @@
 
 ## 📘 Visão Geral
 
-O **Embrace.API** é uma API REST desenvolvida em .NET 8 que visa auxiliar comunidades em momentos críticos causados por desastres naturais, como enchentes, ondas de frio ou calor extremo. A solução permite:
+A Embrace é uma plataforma que atua como um hub digital unificado para situações de emergência climática, conectando ONGs, coletivos, voluntários e comunidades afetadas. Em vez de esforços isolados, ela centraliza comunicação, cadastro de demandas e oferta de recursos em uma só interface — garantindo que campanhas e chamados de socorro sejam visíveis e atendidos com agilidade, reduzindo lacunas e sobreposições nas ações solidárias.
+
+O Embrace.API representa um dos núcleos de backend dessa solução: uma API REST desenvolvida em .NET 8, voltada a viabilizar e organizar ações solidárias em contextos de desastre como enchentes, ondas de calor ou frio extremo. A solução permite:
 
 - Cadastro de ONGs e ações solidárias;
+
 - Registro e consulta de doações;
+
 - Gerenciamento de voluntários;
+
 - Visualização de pontos de coleta de alimentos;
+
 - Integração com mapa e sistemas externos para gestão comunitária.
 
 ## 🧱 Arquitetura do Projeto
