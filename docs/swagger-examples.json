@@ -1,0 +1,37 @@
+{
+  "POST /api/ongs": {
+    "nome": "ONG Esperança",
+    "cnpj": "12.345.678/0001-90",
+    "email": "contato@ongesperanca.org",
+    "telefone": "(11) 98765-4321"
+  },
+  
+  "POST /api/voluntarios": {
+    "nome": "João da Silva",
+    "telefone": "(11) 99999-8888",
+    "cidade": "São Paulo"
+  },
+
+  "POST /api/acoes-solidarias": {
+    "nome": "Campanha de Inverno",
+    "tipoEvento": "Arrecadação",
+    "cidade": "Campinas",
+    "estado": "SP",
+    "descricao": "Campanha para arrecadação de agasalhos",
+    "metaItens": 100,
+    "ongId": 1
+  },
+
+  "POST /api/doacoes": {
+    "tipo": "Alimento",
+    "quantidade": 50,
+    "dataRecebida": "2025-06-08T10:00:00",
+    "acaoSolidariaId": 1
+  },
+
+  "POST /api/pontos-de-alimento": {
+    "nomeLocal": "Centro Comunitário Vila Nova",
+    "endereco": "Rua das Flores, 123 - Vila Nova",
+    "capacidade": 200
+  }
+}
