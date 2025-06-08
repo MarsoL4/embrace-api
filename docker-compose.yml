@@ -17,7 +17,7 @@ services:
       - embrace_network
 
   app:
-    build: .
+    build: ./Embrace.API
     container_name: embrace_api
     ports:
       - "8080:80"
