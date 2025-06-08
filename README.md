@@ -20,19 +20,21 @@ O Embrace.API representa um dos núcleos de backend dessa solução: uma API RES
 
 ```
 Embrace.API/
-├── Controllers/                # Endpoints REST
-├── DTOs/                       # Objetos de Transferência de Dados
+├── AutoMapper/ # Configuração do AutoMapper
+├── Controllers/ # Endpoints da API
+├── DTOs/ # Objetos de Transferência de Dados
 ├── Infrastructure/
-│   ├── Contexts/               # DbContext do projeto
-│   ├── Mappings/               # EntityTypeConfiguration (EF)
-│   └── Persistence/            # Entidades (Models)
-├── Repositories/
-│   ├── Interfaces/             # Interfaces dos repositórios
-│   └── (Repositórios)         # Implementações dos repositórios
-├── Services/                   # Lógica de negócio
-├── AutoMapper/                # Perfil de mapeamento DTO <-> entidade
-├── Program.cs                 # Configuração principal
-└── appsettings.json           # Configurações de conexão
+│ ├── Contexts/ # DbContext e configuração do banco
+│ ├── Mappings/ # Mapeamentos do EF Core
+│ ├── Persistence/ # Entidades do domínio
+│ └── Repositories/ # Repositórios concretos e interfaces
+├── Migrations/ # Histórico das migrations do Entity Framework Core
+├── Properties/ # launchSettings.json para execução local
+├── Services/ # Camada de serviços com regras de negócio
+├── appsettings.json # Configuração principal da aplicação
+├── Dockerfile # Dockerfile da aplicação .NET
+├── Embrace.API.csproj # Arquivo de definição do projeto
+└── Program.cs # Ponto de entrada da aplicação e injeções de dependência
 ```
 
 ## 🛠️ Tecnologias Utilizadas
@@ -66,7 +68,7 @@ Este projeto foi conteinerizado com Docker. Você só precisa do Docker instalad
 ### 1. Clonar o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/embrace-api.git
+git clone https://github.com/MarsoL4/embrace-api.git
 ```
 ```bash
 cd embrace-api
