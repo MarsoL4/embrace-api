@@ -6,6 +6,7 @@ A Embrace é uma plataforma que atua como um hub digital unificado para situaç�
 
 O Embrace.API representa um dos núcleos de backend dessa solução: uma API REST desenvolvida em .NET 8, voltada a viabilizar e organizar ações solidárias em contextos de desastre como enchentes, ondas de calor ou frio extremo. A solução permite:
 
+
 - Cadastro de ONGs e ações solidárias;
 - Registro e consulta de doações;
 - Gerenciamento de voluntários;
