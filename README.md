@@ -1,3 +1,4 @@
+
 # Embrace API – Sistema de Apoio em Situações de Emergência Climática
 
 ## 📘 Visão Geral
