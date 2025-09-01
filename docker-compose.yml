@@ -15,11 +15,6 @@ services:
     networks:
       - embrace_network
     restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U embrace_user"]
-      interval: 20s
-      timeout: 10s
-      retries: 5
 
   app:
     build: ./Embrace.API
@@ -27,19 +22,13 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       - ConnectionStrings__Postgres=Host=db;Port=5432;Database=embrace_db;Username=embrace_user;Password=embrace_pass
     networks:
       - embrace_network
     restart: always
     user: "1000:1000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
 
 volumes:
   postgres_data:
