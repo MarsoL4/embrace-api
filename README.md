@@ -39,7 +39,7 @@ Ambos conectados por uma rede Docker dedicada.
 
 ---
 
-## 2️⃣ Análise da Arquitetura
+## Análise da Arquitetura
 
 - **Serviços do projeto:**
   - Embrace.API (.NET 8)
