@@ -54,29 +54,6 @@ Ambos conectados por uma rede Docker dedicada.
 
 ---
 
-## 📂 Estrutura de Pastas
-
-```
-Embrace.API/
-├── AutoMapper/
-├── Controllers/
-├── DTOs/
-├── Infrastructure/
-│   ├── Contexts/
-│   ├── Mappings/
-│   ├── Persistence/
-│   └── Repositories/
-├── Migrations/
-├── Properties/
-├── Services/
-├── appsettings.json
-├── Dockerfile
-├── Embrace.API.csproj
-└── Program.cs
-```
-
----
-
 ## 🛠️ Tecnologias Utilizadas
 
 - .NET 8
