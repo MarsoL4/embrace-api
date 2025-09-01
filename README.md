@@ -77,7 +77,6 @@ O projeto foi modernizado e utiliza Docker Compose para orquestrar os containers
 - Volume nomeado para persistência do banco
 - Variáveis de ambiente para configuração
 - Rede dedicada para comunicação interna
-- Healthchecks para ambos serviços
 - Políticas de restart apropriadas
 - API exposta na porta 8080, banco na 5432
 
@@ -100,7 +99,7 @@ cd embrace-api
 
 No arquivo `Embrace.API/appsettings.json`, confirme que a string está assim:
 ```
-"DefaultConnection": "Host=db;Database=embrace;Username=embraceuser;Password=embracestrongpass"
+"Postgres": "Host=db;Port=5432;Database=embrace_db;Username=embrace_user;Password=embrace_pass"
 ```
 
 ### 4. Subir os containers
@@ -112,7 +111,7 @@ docker compose up --build
 ### 5. Popular o banco (se necessário)
 
 ```bash
-docker compose exec api dotnet ef database update
+docker compose exec app dotnet ef database update
 ```
 
 ---
@@ -126,7 +125,7 @@ docker compose exec api dotnet ef database update
 - Ver logs:  
   `docker compose logs -f`
 - Acessar terminal do container:  
-  `docker compose exec api /bin/bash`
+  `docker compose exec app /bin/bash`
 
 ---
 
@@ -136,7 +135,7 @@ docker compose exec api dotnet ef database update
 2. Ajuste variáveis de ambiente, se necessário.
 3. Garanta que a string de conexão está correta no `appsettings.json`.
 4. Suba os containers com `docker compose up --build`.
-5. Popular o banco (opcional) com `docker compose exec api dotnet ef database update`.
+5. Popular o banco (opcional) com `docker compose exec app dotnet ef database update`.
 6. Acesse a API via [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html).
 
 ---
@@ -144,9 +143,8 @@ docker compose exec api dotnet ef database update
 ## 🛠 Troubleshooting Básico
 
 - **Erro de banco:** Confira usuário, senha e se a porta 5432 está livre.
-- **API não sobe:** Veja logs com `docker compose logs api`.
-- **Healthcheck falha:** Confirme se a rota `/health` está implementada.
-- **Banco vazio:** Use o comando `dotnet ef database update`.
+- **API não sobe:** Veja logs com `docker compose logs app`.
+- **Banco vazio:** Use o comando `docker compose exec app dotnet ef database update`.
 
 ---
 
