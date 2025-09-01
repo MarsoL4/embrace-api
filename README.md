@@ -2,40 +2,80 @@
 
 ## 📘 Visão Geral
 
-A Embrace é uma plataforma que atua como um hub digital unificado para situações de emergência climática, conectando ONGs, coletivos, voluntários e comunidades afetadas. Em vez de esforços isolados, ela centraliza comunicação, cadastro de demandas e oferta de recursos em uma só interface — garantindo que campanhas e chamados de socorro sejam visíveis e atendidos com agilidade, reduzindo lacunas e sobreposições nas ações solidárias.
+A Embrace é uma plataforma que atua como um hub digital unificado para situações de emergência climática, conectando ONGs, coletivos, voluntários e comunidades afetadas. O Embrace.API representa o núcleo backend dessa solução: uma API REST desenvolvida em .NET 8 para gerenciar ações solidárias em desastres naturais.
 
-O Embrace.API representa um dos núcleos de backend dessa solução: uma API REST desenvolvida em .NET 8, voltada a viabilizar e organizar ações solidárias em contextos de desastre como enchentes, ondas de calor ou frio extremo. A solução permite:
+- Cadastro de ONGs e ações solidárias
+- Registro e consulta de doações
+- Gerenciamento de voluntários
+- Visualização de pontos de coleta de alimentos
+- Integração com sistemas externos
 
-- Cadastro de ONGs e ações solidárias;
-- Registro e consulta de doações;
-- Gerenciamento de voluntários;
-- Visualização de pontos de coleta de alimentos;
-- Integração com mapa e sistemas externos para gestão comunitária.
+---
 
 ## 🧱 Arquitetura do Projeto
 
-📄 [Clique aqui para visualizar o Diagrama de Arquitetura (PDF)](docs/ArquiteturaEmbrace.pdf)
+### Arquitetura Atual (antes da modernização)
+```
+Usuário
+   |
+   v
+[Embrace.API (.NET 8)]
+   |
+   v
+[PostgreSQL]
+```
+
+### Arquitetura Futura (após Docker Compose)
+```
+Usuário
+   |
+   v
+[Container: Embrace.API]
+   |
+   v
+[Container: PostgreSQL]
+```
+Ambos conectados por uma rede Docker dedicada.
+
+---
+
+## 2️⃣ Análise da Arquitetura
+
+- **Serviços do projeto:**
+  - Embrace.API (.NET 8)
+  - PostgreSQL (banco de dados)
+
+- **Dependências:**  
+  A aplicação depende do banco de dados para persistência das informações (ONGs, doações, voluntários, pontos de coleta, etc).
+
+- **Estratégia de containerização:**
+  - API: Imagem oficial do .NET 8, utilizando Dockerfile próprio.
+  - Banco: Imagem oficial do PostgreSQL, configurada por variáveis de ambiente.
+
+---
 
 ## 📂 Estrutura de Pastas
 
 ```
 Embrace.API/
-├── AutoMapper/ # Configuração do AutoMapper
-├── Controllers/ # Endpoints da API
-├── DTOs/ # Objetos de Transferência de Dados
+├── AutoMapper/
+├── Controllers/
+├── DTOs/
 ├── Infrastructure/
-│ ├── Contexts/ # DbContext e configuração do banco
-│ ├── Mappings/ # Mapeamentos do EF Core
-│ ├── Persistence/ # Entidades do domínio
-│ └── Repositories/ # Repositórios concretos e interfaces
-├── Migrations/ # Histórico das migrations do Entity Framework Core
-├── Properties/ # launchSettings.json para execução local
-├── Services/ # Camada de serviços com regras de negócio
-├── appsettings.json # Configuração principal da aplicação
-├── Dockerfile # Dockerfile da aplicação .NET
-├── Embrace.API.csproj # Arquivo de definição do projeto
-└── Program.cs # Ponto de entrada da aplicação e injeções de dependência
+│   ├── Contexts/
+│   ├── Mappings/
+│   ├── Persistence/
+│   └── Repositories/
+├── Migrations/
+├── Properties/
+├── Services/
+├── appsettings.json
+├── Dockerfile
+├── Embrace.API.csproj
+└── Program.cs
 ```
+
+---
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -45,80 +85,165 @@ Embrace.API/
 - Entity Framework Core
 - Npgsql (PostgreSQL)
 - AutoMapper
-- Swagger (Swashbuckle.AspNetCore)
+- Swagger
 - Docker e Docker Compose
-- Visual Studio 2022
 
-## 🚀 Conteinerização (Cloud)
+---
 
-A aplicação foi conteinerizada com Docker, atendendo aos requisitos de infraestrutura como código:
+## 🚀 Conteinerização com Docker Compose
 
-- 📦 1 container para a API (.NET 8)
-- 🗄️ 1 container PostgreSQL via Dockerfile personalizado
-- 👤 Usuário não-root no banco
-- 📁 Volume nomeado para persistência de dados
-- 🔄 Modo background com logs visíveis via terminal
-- 🔐 Variáveis de ambiente para credenciais
-- 🌐 Porta da API: 8080 | Porta do DB: 5432
+O projeto foi modernizado e utiliza Docker Compose para orquestrar os containers de aplicação e banco de dados.
+
+- 1 container para a API (.NET 8)
+- 1 container para o PostgreSQL (imagem oficial)
+- Usuário não-root para a aplicação
+- Volume nomeado para persistência do banco
+- Variáveis de ambiente para configuração
+- Rede dedicada para comunicação interna
+- Healthchecks para ambos serviços
+- Políticas de restart apropriadas
+- API exposta na porta 8080, banco na 5432
+
+### Exemplo do arquivo `docker-compose.yml`:
+
+```yaml
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: embrace_db
+    environment:
+      POSTGRES_DB: embrace
+      POSTGRES_USER: embraceuser
+      POSTGRES_PASSWORD: embracestrongpass
+    ports:
+      - "5432:5432"
+    networks:
+      - embrace-net
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U embraceuser"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
+  api:
+    build:
+      context: ./Embrace.API
+      dockerfile: Dockerfile
+    container_name: embrace_api
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Database=embrace;Username=embraceuser;Password=embracestrongpass
+      - ASPNETCORE_ENVIRONMENT=Production
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    networks:
+      - embrace-net
+    restart: always
+    user: "1000:1000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  embrace-net:
+
+volumes:
+  db-data:
+```
+
+---
 
 ## ⚙️ Como Executar o Projeto
 
-Este projeto foi conteinerizado com Docker. Você só precisa do Docker instalado e seguir os passos abaixo:
+### 1. Pré-requisitos
 
-### 1. Clonar o Repositório
+- Docker e Docker Compose instalados
+
+### 2. Clonar o Repositório
 
 ```bash
 git clone https://github.com/MarsoL4/embrace-api.git
-```
-```bash
 cd embrace-api
 ```
 
-### 2. Subir os containers da API e do banco PostgreSQL
+### 3. Ajustar a string de conexão
 
-```bash
-docker-compose up --build -d
+No arquivo `Embrace.API/appsettings.json`, confirme que a string está assim:
+```
+"DefaultConnection": "Host=db;Database=embrace;Username=embraceuser;Password=embracestrongpass"
 ```
 
-Isso irá:
+### 4. Subir os containers
 
-- Criar a imagem do banco PostgreSQL com volume nomeado e usuário customizado.
-
-- Criar a imagem da API .NET.
-
-- Executar ambos em containers interligados via rede.
-
-- Tornar a API acessível via porta 8080.
-
-📌 O banco será iniciado vazio. Para popular com as tabelas necessárias, execute a migration manualmente usando linha de comando na pasta do projeto:
 ```bash
-cd Embrace.API
+docker compose up --build
 ```
+
+### 5. Popular o banco (se necessário)
+
 ```bash
-dotnet ef database update
+docker compose exec api dotnet ef database update
 ```
+
+---
+
+## ⛳ Comandos Essenciais Docker Compose
+
+- Subir containers:  
+  `docker compose up --build`
+- Parar containers:  
+  `docker compose down`
+- Ver logs:  
+  `docker compose logs -f`
+- Acessar terminal do container:  
+  `docker compose exec api /bin/bash`
+
+---
+
+## 🚀 Deploy Passo a Passo
+
+1. Clone o repositório.
+2. Ajuste variáveis de ambiente, se necessário.
+3. Garanta que a string de conexão está correta no `appsettings.json`.
+4. Suba os containers com `docker compose up --build`.
+5. Popular o banco (opcional) com `docker compose exec api dotnet ef database update`.
+6. Acesse a API via [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html).
+
+---
+
+## 🛠 Troubleshooting Básico
+
+- **Erro de banco:** Confira usuário, senha e se a porta 5432 está livre.
+- **API não sobe:** Veja logs com `docker compose logs api`.
+- **Healthcheck falha:** Confirme se a rota `/health` está implementada.
+- **Banco vazio:** Use o comando `dotnet ef database update`.
+
+---
 
 ## 🧪 Testes (via Swagger)
 
-- Após subir o projeto, acesse no navegador: http://localhost:8080/swagger/index.html
+- Após subir o projeto, acesse: [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
+- Realize operações CRUD em todos os recursos (ONGs, voluntários, doações, etc)
 
-✅ Exemplos de json para testes podem ser encontrados no arquivo:
-
-📁 [`docs/swagger-examples.json`](docs/swagger-examples.json)
-
-Inclui exemplos para:
-
-- POST /api/ongs
-- POST /api/voluntarios
-- POST /api/doacoes
-- POST /api/acaoSolidaria
-- POST /api/pontodealimento
+Exemplos de payloads em [`docs/swagger-examples.json`](docs/swagger-examples.json).
 
 ---
+
 ## 👨‍💻 Desenvolvido por
 
 Time Embrace – GS 2025-1:
 
-- **Enzo Giuseppe Marsola** – RM: 556310, Turma: 2TDSPK  
-- **Rafael de Souza Pinto** – RM: 555130, Turma: 2TDSPY  
-- **Luiz Paulo F. Fernandes** – RM: 555497, Turma: 2TDSPF
+- **Enzo Giuseppe Marsola** – RM: 556310  
+- **Cauan da Cruz Ferreira** – RM: 5558238  
+- **Igor dias Barrocal** – RM: 555217
+
+---
